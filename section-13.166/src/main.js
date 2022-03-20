@@ -31,7 +31,7 @@ const router = createRouter({
       components: { default: UsersList, footer: UsersFooter },
       beforeEnter(to, from, next) {
         console.log("users beforeEnter");
-        console.log(to, from);
+        // console.log(to, from);
         next();
       },
     }, // our-domain.com/users => UsersList
@@ -59,7 +59,7 @@ router.beforeEach(function (to, from, next) {
 router.afterEach(function(to, from) {
   // sending analytics data
   console.log('Global afterEach:');
-  console.log(to, from);
+  // console.log(to, from);
 })
 
 const app = createApp(App);

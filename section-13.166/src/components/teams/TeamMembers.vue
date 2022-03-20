@@ -48,7 +48,7 @@ export default {
   },
   beforeRouteUpdate(to, from, next) {
     console.log('TeamMembers component beforeRouteUpdate');
-    console.log(to, from);
+    // console.log(to, from);
     // this.loadTeamMembers(to.params.teamId);
     next();
   },
