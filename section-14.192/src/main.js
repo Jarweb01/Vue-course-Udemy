@@ -8,3 +8,4 @@ const app = createApp(App);
 app.component('base-modal', BaseModal);
 
 app.mount('#app');
+

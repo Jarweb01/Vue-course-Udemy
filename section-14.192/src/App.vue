@@ -4,12 +4,27 @@
     <button @click="animateBlock">Animate</button>
   </div>
   <div class="container">
-    <transition >
+    <transition 
+      name="para" 
+      @before-enter="beforeEnter" 
+      @enter="enter" 
+      @after-enter="afterEnter" 
+      @before-leave="beforeLeave"
+      @leave="leave"
+      @after-leave="afterLeave"
+    >
       <p v-if="paraIsVisible">This is only sometimes visible...</p>
     </transition>
     <button @click="toggleParagraph">Toggle Paragraph</button>
   </div>
-  <base-modal @close="hideDialog" v-if="dialogIsVisible">
+  <div class="container">
+    <transition name="fade-button" mode="out-in">
+      <button @click="showUsers" v-if="!usersAreVisible">Show users</button>
+      <button @click="hideUsers" v-else>Hide users</button>
+    </transition>
+    <p v-if="usersAreVisible">Users</p>
+  </div>
+  <base-modal @close="hideDialog" :open="dialogIsVisible">
     <p>This is a test dialog!</p>
     <button @click="hideDialog">Close it!</button>
   </base-modal>
@@ -21,9 +36,39 @@
 <script>
 export default {
   data() {
-    return { animatedBlock: false, dialogIsVisible: false, paraIsVisible: false,  };
+    return { animatedBlock: false, dialogIsVisible: false, paraIsVisible: false, usersAreVisible: false  };
   },
   methods: {
+    beforeEnter(el) {
+      console.log('beforeEnter()');
+      console.log(el);
+    },
+    enter(el) {
+      console.log('enter()')
+      console.log(el)
+    },
+    afterEnter(el) {
+      console.log('afterEnter()');
+      console.log(el)
+    },
+    beforeLeave(el) {
+      console.log('beforeLeave()')
+      console.log(el);
+    },
+    leave(el) {
+      console.log('leave');
+      console.log(el);
+    },
+    afterLeave(el) {
+      console.log('afterLeave');
+      console.log(el)
+    },
+    showUsers () {
+      this.usersAreVisible = true;
+    },
+    hideUsers() {
+      this.usersAreVisible = false;
+    },
     animateBlock() {
       this.animatedBlock = true;
     },
@@ -83,40 +128,44 @@ button:active {
   border: 2px solid #ccc;
   border-radius: 12px;
 }
+
+
 .animate {
   /* transform: translateX(-150px); */
   animation: slide-scale 0.3s ease-out forwards;
 }
 
-.v-enter-from {
-  /* opacity: 0;
-  transform: translateY(-30px); */
-}
-
-.v-enter-active {
-  animation: slide-scale 0.3s ease-out;
+.para-enter-active {
+  animation: slide-scale 2s ease-out;
   /* transition: all .3s ease-out; */
 }
 
-.v-enter-to {
-  /* opacity: 1;
-  transform: translateY(0); */
-}
-
-.v-leave-from {
-  /* opacity: 1;
-  transform: translateY(0); */
-}
-
-.v-leave-active{
+.para-leave-active{
   animation: slide-scale 0.3s ease-out;
   /* transition: all 0.3s ease-in; */
 }
 
-.v-leave-to {
-  /* opacity: 0;
-  transform: translateY(30px); */
+/* buttons */
+
+.fade-button-enter-from,
+.fade-button-leave-to {
+  opacity: 0;
 }
+
+.fade-button-enter-active {
+  transition: opacity 0.3s ease-out;
+}
+
+.fade-button-leave-active {
+  transition: opacity 0.3s ease-in;
+}
+
+.fade-button-enter-to,
+.fade-button-leave-from {
+  opacity: 1;
+}
+
+
 
 @keyframes slide-scale {
   0% {
