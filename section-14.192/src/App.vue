@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<!-- <div class="container">
   <users-list></users-list>
 </div>
   <div class="container">
@@ -36,7 +36,12 @@
   </base-modal>
   <div class="container">
     <button @click="showDialog">Show Dialog</button>
-  </div>
+  </div> -->
+    <router-view v-slot="slotProps">
+      <transition name="fade-button" mode="out-in">
+        <component :is="slotProps.Component"></component>
+      </transition>
+    </router-view>
 </template>  
 
 <script>
@@ -199,6 +204,15 @@ button:active {
   opacity: 1;
 }
 
+.route-enter-from {}
+.route-enter-active {
+  animation: slide-scale 0.4s ease-out;
+}
+.route-enter-to {}
+
+.route-leave-active {
+  animation: slide-scale 0.4s ease-in;
+}
 
 
 @keyframes slide-scale {
