@@ -17,3 +17,5 @@ app.component('base-button', BaseButton);
 app.component('base-badge', BaseBadge);
 
 app.mount('#app');
+
+//test
