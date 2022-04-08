@@ -31,6 +31,9 @@ export default {
     });
   },
   async loadCoaches(context, payload) {
+    if (!payload.forceRefresh && !context.getters.shouldUpdate) {
+      return;
+    }
     const response = await fetch(
       `https://coaches-project-39ad2-default-rtdb.europe-west1.firebasedatabase.app/coaches.json`
     );
@@ -55,6 +58,7 @@ export default {
       coaches.push(coach);
     }
 
-    context.commit('setCoaches', coaches)
+    context.commit('setCoaches', coaches);
+    context.commit('setFetchTimestamp')
   },
 };
