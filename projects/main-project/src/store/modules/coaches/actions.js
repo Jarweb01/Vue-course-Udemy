@@ -11,8 +11,10 @@ export default {
       areas: data.areas,
     };
 
+    const token = context.rootGetters.token;
+
     const response = await fetch(
-      `https://coaches-project-39ad2-default-rtdb.europe-west1.firebasedatabase.app/coaches/${userId}.json`,
+      `https://coaches-project-39ad2-default-rtdb.europe-west1.firebasedatabase.app/coaches/${userId}.json?auth=` + token,
       {
         method: 'PUT',
         body: JSON.stringify(coachData),
