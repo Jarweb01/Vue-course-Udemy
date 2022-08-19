@@ -8,17 +8,22 @@
     </base-dialog>
     <base-card>
       <form @submit.prevent="submitForm">
-          <div class="form-control">
-            <label for="email">E-mail</label>
-            <input id="email" type="email" v-model.trim="email">
-          </div>
-          <div class="form-control">
-            <label for="password">Password</label>
-            <input id="password" type="password" v-model.trim="password">
-          </div>
-          <p v-if="!formIsValid">Please enter a valid email and password (must be at least 6 characters long).</p>
-          <base-button>{{ submitButtonCaption }}</base-button>
-          <base-button type="button" mode="flat" @click="switchAuthMode">{{ switchModeButtonCaption }}</base-button>
+        <div class="form-control">
+          <label for="email">E-mail</label>
+          <input id="email" type="email" v-model.trim="email" />
+        </div>
+        <div class="form-control">
+          <label for="password">Password</label>
+          <input id="password" type="password" v-model.trim="password" />
+        </div>
+        <p v-if="!formIsValid">
+          Please enter a valid email and password (must be at least 6 characters
+          long).
+        </p>
+        <base-button>{{ submitButtonCaption }}</base-button>
+        <base-button type="button" mode="flat" @click="switchAuthMode">{{
+          switchModeButtonCaption
+        }}</base-button>
       </form>
     </base-card>
   </div>
@@ -34,7 +39,7 @@ export default {
       mode: 'login',
       isLoading: false,
       error: null,
-    }
+    };
   },
   computed: {
     submitButtonCaption() {
@@ -55,7 +60,11 @@ export default {
   methods: {
     async submitForm() {
       this.formIsValid = true;
-      if (this.email === '' || !this.email.includes('@') || this.password.length < 6) {
+      if (
+        this.email === '' ||
+        !this.email.includes('@') ||
+        this.password.length < 6
+      ) {
         this.formIsValid = false;
         return;
       }
@@ -64,14 +73,16 @@ export default {
       const actionPayload = {
         email: this.email,
         password: this.password,
-      }
+      };
 
       try {
         if (this.mode === 'login') {
-          await this.$store.dispatch('login', actionPayload)
+          await this.$store.dispatch('login', actionPayload);
         } else {
           await this.$store.dispatch('signup', actionPayload);
         }
+        const redirectUrl = '/' + (this.$route.query.redirect || 'coaches');
+        this.$router.replace(redirectUrl);
       } catch (err) {
         this.error = err.message || 'Failed to authenticate, try later.';
       }
@@ -87,9 +98,9 @@ export default {
     },
     handleError() {
       this.error = null;
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>
